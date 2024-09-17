@@ -1,0 +1,5 @@
+# Ignore Terraform and Terragrunt files
+*.tfstate
+*.tfstate.*
+.terraform/
+.terragrunt-cache/
