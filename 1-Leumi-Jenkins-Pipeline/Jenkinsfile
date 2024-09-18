@@ -2,10 +2,10 @@ pipeline {
     agent any
 
     environment {
-        ECR_REPO_URI = "your-ecr-repo-uri"  // Set the value directly or pass from Jenkins environment
-        IMAGE_TAG = "${env.BUILD_ID}"       // Jenkins' unique build ID for the Docker image tag
-        AWS_REGION = "us-west-2"            // Set AWS region directly or pass from Jenkins environment
-        GIT_REPO_URL = "https://github.com/your-repo-url.git"  // Set Git repo URL directly
+        ECR_REPO_URI = "${env.ECR_REPO_URI ?: '864492617736.dkr.ecr.us-west-2.amazonaws.com/dvorkinguy-leumi-jenkins-ecr-repo'}"
+        IMAGE_TAG = "${env.BUILD_ID}"                                // Jenkins' unique build ID for the Docker image tag
+        AWS_REGION = "${env.AWS_REGION ?: 'us-west-2'}"              // Use Jenkins environment variable or fallback to 'us-west-2'
+        GIT_REPO_URL = "https://github.com/notjustdevops/bank-leumi-demo.git"  // Set Git repo URL directly
     }
 
     stages {
