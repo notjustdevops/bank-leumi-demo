@@ -33,8 +33,6 @@
 # Question #2.b: DNS Resolving but No Internet Communication
 - The TEST EC2 instance successfully resolves DNS but cannot communicate with the internet. What could be the possible cause of the issue?
 
----
-
 # Answer #2.b:
 
 ### **Things to Check:**
@@ -64,8 +62,6 @@
   - Error 1: `pull access denied`
   - Error 2: `container pull timeout`
   - Error 3: `docker daemon is not running`
-
----
 
 # Answer #2.c: Docker Issues on TEST EC2:
 

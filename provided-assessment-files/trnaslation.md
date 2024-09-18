@@ -4,7 +4,6 @@
 
 ### 1. Jenkins Pipeline:
 
-
 - You are required to create a Jenkins process based on a Jenkins Declarative Pipeline. 
 - The pipeline will build an application, based on Python, on one server, wrap it with Docker, and run it after the build process on another server in a POD (Kubernetes) configuration.
 - This application should be exposed externally on port 443.
