@@ -518,3 +518,4 @@ This repository contains a Terraform project deployed with Terragrunt. It sets u
 EOL
 
 echo "Repository structure created successfully."
+
