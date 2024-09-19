@@ -1,6 +1,11 @@
 # path: Leumi-Jenkins-Pipeline/modules/monitoring/main.tf
 
 # Create an SNS topic for alarm notifications
+terraform {
+  backend "s3" {}
+}
+
+
 resource "aws_sns_topic" "alarm_notifications" {
   name = "${var.resource_name_prefix}-alarm-topic"
 }
