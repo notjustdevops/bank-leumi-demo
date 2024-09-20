@@ -1,11 +1,15 @@
-# path: Leumi-Jenkins-Pipeline/modules/s3/main.tf
+# path: /home/notjust/Documents/devops/Projects/bank-leumi-demo/1-Leumi-Jenkins-Pipeline/modules/s3/main.tf
+
+terraform {
+  backend "s3" {}  # Define an empty backend block
+}
 
 resource "aws_s3_bucket" "dev_bucket" {
-  bucket = "${var.resource_name_prefix}-s3-bucket"
+  bucket = "${var.bucket_name}"
   acl    = "private"
 
   versioning {
-    enabled = true
+    enabled = var.versioning_enabled
   }
 
   server_side_encryption_configuration {

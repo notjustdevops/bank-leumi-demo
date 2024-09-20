@@ -1,5 +1,9 @@
 # path: Leumi-Jenkins-Pipeline/modules/vpc/main.tf
 
+terraform {
+  backend "s3" {}  # Define an empty backend block
+}
+
 resource "aws_vpc" "main" {
   cidr_block = var.vpc_cidr
   enable_dns_support = true

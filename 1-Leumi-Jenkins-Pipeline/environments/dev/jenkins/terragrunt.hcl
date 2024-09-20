@@ -34,3 +34,7 @@ dependency "security" {
 dependency "iam" {
   config_path = "../iam"
 }
+
+dependency "eks" {
+  config_path = "../eks"
+}

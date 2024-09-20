@@ -30,3 +30,8 @@ variable "resource_name_prefix" {
   description = "Prefix for resource names"
   type        = string
 }
+
+variable "aws_region" {
+  description = "AWS region to deploy resources"
+  type        = string
+}

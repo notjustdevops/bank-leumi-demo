@@ -59,3 +59,10 @@ variable "replicas" {
   type        = number
   default     = 2  # Default to 2 if not set in tfvars
 }
+
+# Jenkins-specific variables
+variable "jenkins_namespace" {
+  description = "Kubernetes namespace for the Jenkins deployment"
+  type        = string
+  default     = "jenkins"
+}

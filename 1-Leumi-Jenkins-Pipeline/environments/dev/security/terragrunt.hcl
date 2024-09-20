@@ -1,13 +1,16 @@
 # path: /home/notjust/Documents/devops/Projects/bank-leumi-demo/1-Leumi-Jenkins-Pipeline/environments/dev/security/terragrunt.hcl
 
 terraform {
-  source = "../../../modules//security"  # Correct module path
+  source = "../../../modules//security"
 }
 
 inputs = {
   aws_region           = local.aws_region
   common_tags          = local.common_tags
   resource_name_prefix = local.resource_name_prefix
+
+  # Capture the vpc_id from the VPC module
+  vpc_id               = dependency.vpc.outputs.vpc_id
 }
 
 remote_state {
@@ -37,7 +40,6 @@ locals {
 # Dependencies (e.g., VPC, IAM)
 dependency "vpc" {
   config_path = "../vpc"
-  skip_outputs = true
 }
 
 dependency "iam" {

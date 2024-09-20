@@ -1,5 +1,9 @@
 # path: Leumi-Jenkins-Pipeline/modules/dynamodb/main.tf
 
+terraform {
+  backend "s3" {}
+}
+
 resource "aws_dynamodb_table" "terraform_locks" {
   name         = "${var.resource_name_prefix}-terraform-locks"
   billing_mode = "PAY_PER_REQUEST"

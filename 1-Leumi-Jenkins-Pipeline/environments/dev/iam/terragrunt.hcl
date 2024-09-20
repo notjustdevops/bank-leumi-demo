@@ -1,19 +1,17 @@
-# /home/notjust/Documents/devops/Projects/bank-leumi-demo/1-Leumi-Jenkins-Pipeline/environments/dev/iam/terragrunt.hcl
+# path: /home/notjust/Documents/devops/Projects/bank-leumi-demo/1-Leumi-Jenkins-Pipeline/environments/dev/iam/terragrunt.hcl
 
 terraform {
   source = "../../../modules//iam"
 }
 
 inputs = {
-  aws_region          = local.aws_region
-  common_tags         = local.common_tags
+  aws_region           = local.aws_region
+  common_tags          = local.common_tags
   resource_name_prefix = local.resource_name_prefix
-}
 
-# Dependency for VPC module
-dependency "vpc" {
-  config_path = "../vpc"
-  skip_outputs = true  # Skip outputs as the VPC module has no outputs
+  # Add the S3 Backup ARN as input
+  s3_backup_arn        = "arn:aws:s3:::dvorkinguy-leumi-jenkins-dev-backup-bucket"
+
 }
 
 remote_state {

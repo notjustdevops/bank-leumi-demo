@@ -1,13 +1,14 @@
 # path: Leumi-Jenkins-Pipeline/modules/eks/outputs.tf
 
-output "cluster_endpoint" {
-  value = module.eks.cluster_endpoint
+# Output EKS Cluster details
+output "eks_cluster_name" {
+  value = aws_eks_cluster.eks_cluster.name
 }
 
-output "cluster_ca_certificate" {
-  value = module.eks.cluster_certificate_authority_data
+output "eks_cluster_endpoint" {
+  value = aws_eks_cluster.eks_cluster.endpoint
 }
 
-output "cluster_auth_token" {
-  value = module.eks.token
+output "eks_cluster_security_group_id" {
+  value = aws_security_group.eks_sg.id
 }

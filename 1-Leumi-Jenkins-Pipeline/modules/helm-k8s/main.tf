@@ -1,4 +1,4 @@
-# path: Leumi-Jenkins-Pipeline/modules/helm-k8s/main.tf
+# path: /home/notjust/Documents/devops/Projects/bank-leumi-demo/1-Leumi-Jenkins-Pipeline/modules/helm-k8s/main.tf
 
 provider "helm" {
   kubernetes {
@@ -8,13 +8,14 @@ provider "helm" {
   }
 }
 
+# Deploy Python App using Helm
 resource "helm_release" "python_app" {
   name       = var.helm_release_name
   repository = var.helm_repo_url
   chart      = var.helm_chart_name
   namespace  = var.helm_namespace
 
-  # Pass values dynamically from Terraform variables (terraform.tfvars)
+  # Pass values dynamically from Terraform variables
   set {
     name  = "global.ecr_repo"
     value = var.ecr_repo
@@ -55,4 +56,33 @@ resource "helm_release" "python_app" {
   ]
 
   depends_on = [module.eks]
+}
+
+# Deploy Jenkins using Helm
+resource "helm_release" "jenkins" {
+  name       = "jenkins"
+  repository = "https://charts.jenkins.io"
+  chart      = "jenkins"
+  namespace  = var.jenkins_namespace
+
+  set {
+    name  = "controller.adminPassword"
+    value = data.aws_secretsmanager_secret_version.jenkins_admin_password_version.secret_string
+  }
+
+  set {
+    name  = "controller.serviceType"
+    value = "LoadBalancer"
+  }
+
+  depends_on = [module.eks]
+}
+
+# Retrieve Jenkins admin password from AWS Secrets Manager
+data "aws_secretsmanager_secret" "jenkins_admin_password" {
+  name = "dvorkinguy-leumi-jenkins-admin-password"
+}
+
+data "aws_secretsmanager_secret_version" "jenkins_admin_password_version" {
+  secret_id = data.aws_secretsmanager_secret.jenkins_admin_password.id
 }
