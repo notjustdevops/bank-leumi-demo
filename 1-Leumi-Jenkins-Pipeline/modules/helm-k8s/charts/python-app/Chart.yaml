@@ -1,7 +1,0 @@
-# path: Leumi-Jenkins-Pipeline/modules/helm-k8s/charts/python-app/Chart.yaml
-
-apiVersion: v2
-name: python-app
-description: A Helm chart for deploying the Python web application
-version: 0.1.0
-appVersion: "1.0"
