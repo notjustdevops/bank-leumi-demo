@@ -2,15 +2,16 @@
 
 terraform {
   source = "../../../modules//s3"
-  
-  extra_arguments "custom_tfvars" {
-    commands = get_terraform_commands_that_need_vars()
-
-    # Use the absolute path to the terraform.tfvars file
-    arguments = ["-var-file=/home/notjust/Documents/devops/Projects/bank-leumi-demo/1-Jenkins-Pipeline/environments/dev/terraform.tfvars"]
-  }
 }
 
-include {
-  path = find_in_parent_folders()
+inputs = {
+  aws_region           = "us-west-2"
+  resource_name_prefix = "dvorkinguy-leumi-jenkins"
+  jenkins_bucket_name  = "dvorkinguy-leumi-jenkins-jenkins-bucket"
+  common_tags = {
+    Name        = "Leumi-Jenkins"
+    Owner       = "Dvorkin Guy"
+    Environment = "Dev"
+    Version     = "0.0.2"
+  }
 }

@@ -93,3 +93,9 @@ resource "aws_iam_role_policy_attachment" "jenkins_s3_access_policy_attach" {
   role       = aws_iam_role.jenkins_role.name
   policy_arn = aws_iam_policy.jenkins_s3_access_policy.arn
 }
+
+# Fetch the Jenkins IAM instance profile
+data "aws_iam_instance_profile" "jenkins" {
+  name = "JenkinsInstanceProfile"  # Replace with the actual name of your instance profile
+}
+

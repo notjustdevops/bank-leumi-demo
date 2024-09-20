@@ -15,7 +15,15 @@ variable "jenkins_bucket_name" {
   type        = string
 }
 
+
+variable "jenkins_instance_profile" {
+  description = "The name of the Jenkins EC2 instance profile"
+  type        = string
+}
+
 variable "common_tags" {
   description = "Common tags to apply to all resources"
   type        = map(string)
 }
+
+

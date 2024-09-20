@@ -1,12 +1,17 @@
 # path: /home/notjust/Documents/devops/Projects/bank-leumi-demo/1-Jenkins-Pipeline/modules/s3/variables.tf
 
-variable "resource_name_prefix" {
-  description = "Prefix for naming resources"
+variable "aws_region" {
+  description = "The AWS region to deploy resources"
   type        = string
 }
 
-variable "aws_region" {
-  description = "AWS Region to deploy resources"
+variable "jenkins_bucket_name" {
+  description = "The name of the Jenkins S3 bucket"
+  type        = string
+}
+
+variable "resource_name_prefix" {
+  description = "Prefix for naming resources"
   type        = string
 }
 
