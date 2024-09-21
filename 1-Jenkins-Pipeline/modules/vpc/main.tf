@@ -4,6 +4,11 @@ provider "aws" {
   region = var.aws_region
 }
 
+# Fetch availability zones automatically
+data "aws_availability_zones" "available" {
+  state = "available"
+}
+
 # Create the VPC
 resource "aws_vpc" "main" {
   cidr_block = var.vpc_cidr
@@ -35,7 +40,8 @@ resource "aws_subnet" "private" {
   }, var.common_tags)
 }
 
-# Create Security Group for Jenkins and EKS
+
+# Security group for Jenkins and EKS
 resource "aws_security_group" "jenkins_eks" {
   vpc_id = aws_vpc.main.id
 
@@ -75,4 +81,3 @@ resource "aws_security_group" "jenkins_eks" {
   }, var.common_tags)
 }
 
-data "aws_availability_zones" "available" {}

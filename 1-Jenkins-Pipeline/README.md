@@ -77,39 +77,49 @@ To create this project step by step while ensuring that each step works smoothly
    - Create an S3 bucket with versioning enabled for Terraform state and a DynamoDB table for state locking (manually or through Terraform).
    - **Confirm:** Ensure the S3 bucket and DynamoDB table are created and working by running basic `terraform init` and `terraform apply` in your `dev` environment.
 
-4. **Step 4: Create Amazon EKS Cluster**
+
+4. **Step 4: Create EC2 and Amazon EKS Cluster**
    - Use the Terraform module in the `modules/eks` directory to create the EKS cluster.
    - Configure the worker nodes, autoscaling, and IAM roles.
    - **Confirm:** After applying Terraform, validate the EKS cluster by checking the AWS Console or using the `kubectl` command to interact with the cluster (e.g., `kubectl get nodes`).
 
-   Order of Creation
+
+
+### Order of Creation
 Here's the recommended order to create the necessary components for the EKS cluster, based on the dependencies:
 
-IAM Roles and Policies:
+### IAM Roles and Policies:
 
 Start by creating the IAM roles and policies required for the EKS cluster and worker nodes. This is a prerequisite for both the control plane and worker nodes.
-EKS Cluster Control Plane:
+
+### EKS Cluster Control Plane:
 
 Once the IAM roles are in place, create the EKS cluster control plane. Specify the VPC and subnets created earlier to deploy the control plane correctly.
-Worker Nodes:
+
+### Worker Nodes:
 
 After the control plane is up and running, configure the worker nodes with the appropriate instance types, number of nodes, and autoscaling policies.
+
 Ensure the worker nodes are deployed into the private subnets and associated with the correct security groups.
-Autoscaling:
+
+### Autoscaling:
 
 Once the worker nodes are created, configure autoscaling so that the number of worker nodes adjusts dynamically based on workload demand.
-Cluster Validation:
+
+### Cluster Validation:
 
 After applying all changes, use the AWS Console to verify that the EKS cluster is up and running.
+
 Validate by running a basic Kubernetes command, such as kubectl get nodes, to ensure that the worker nodes are registered with the control plane and everything is functioning as expected.
 
 ### **Phase 2: Jenkins Setup**
 
 5. **Step 5: Jenkins on EC2 with EFS for Storage**
-   - Provision an EC2 instance using the `modules/jenkins` Terraform module.
+   - Provision an EC2 instance using the `modules/ec2` Terraform module.
    - Attach EFS for persistent storage of Jenkins configuration and jobs.
    - Install Jenkins on the EC2 instance.
-   - **Confirm:** Access Jenkins via its public IP or DNS, and ensure the persistent storage is working by restarting Jenkins and checking if the configurations persist.
+
+   - **Confirm:** Access **Jenkins** via its public IP or DNS, and ensure the persistent storage is working by restarting Jenkins and checking if the configurations persist.
 
 6. **Step 6: Route 53 DNS and SSL/TLS with ACM**
    - Set up Route 53 DNS for your domain (`leumi.notjustdevops.com`) using AWS CLI or Terraform.

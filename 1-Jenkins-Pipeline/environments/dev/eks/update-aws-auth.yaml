@@ -1,0 +1,17 @@
+# /home/notjust/Documents/devops/Projects/bank-leumi-demo/1-Jenkins-Pipeline/environments/dev/eks/update-aws-auth.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: aws-auth
+  namespace: kube-system
+data:
+  mapRoles: |
+    - rolearn: arn:aws:iam::864492617736:role/DvorkinGuyAdminRole
+      username: admin
+      groups:
+        - system:masters
+  mapUsers: |
+    - userarn: arn:aws:iam::864492617736:user/notjustdevops
+      username: notjustdevops-admin
+      groups:
+        - system:masters

@@ -1,0 +1,72 @@
+pipeline {
+    agent any
+
+    environment {
+        ECR_REPO_URI = "${env.ECR_REPO_URI ?: '864492617736.dkr.ecr.us-west-2.amazonaws.com/dvorkinguy-leumi-jenkins-ecr-repo'}"
+        IMAGE_TAG = "${env.BUILD_ID}"                                // Jenkins' unique build ID for the Docker image tag
+        AWS_REGION = "${env.AWS_REGION ?: 'us-west-2'}"              // Use Jenkins environment variable or fallback to 'us-west-2'
+        GIT_REPO_URL = "https://github.com/notjustdevops/bank-leumi-demo.git"  // Set Git repo URL directly
+    }
+
+    stages {
+        stage('Clone Repository') {
+            steps {
+                git url: "${GIT_REPO_URL}", branch: 'main'
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    docker.build("${ECR_REPO_URI}:${IMAGE_TAG}")
+                }
+            }
+        }
+
+        stage('Login to ECR') {
+            steps {
+                script {
+                    sh 'aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${ECR_REPO_URI}'
+                }
+            }
+        }
+
+        stage('Push Docker Image to ECR') {
+            steps {
+                script {
+                    docker.image("${ECR_REPO_URI}:${IMAGE_TAG}").push()
+                }
+            }
+        }
+
+        stage('Apply Terraform') {
+            steps {
+                script {
+                    withEnv([
+                        "TF_VAR_ecr_repo_name=${ECR_REPO_URI}",
+                        "TF_VAR_image_tag=${IMAGE_TAG}",
+                        "TF_VAR_aws_region=${AWS_REGION}",
+                        "TF_VAR_git_repo_url=${GIT_REPO_URL}"
+                    ]) {
+                        sh 'terraform init'
+                        sh 'terraform apply -auto-approve'
+                    }
+                }
+            }
+        }
+
+        stage('Deploy to Kubernetes') {
+            steps {
+                script {
+                    kubernetesDeploy configs: "k8s/deployment.yaml", kubeconfigId: "${KUBECONFIG_CREDENTIALS}"
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            cleanWs()
+        }
+    }
+}
