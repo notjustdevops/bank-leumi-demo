@@ -59,8 +59,6 @@
 
 ---
 
-To create this project step by step while ensuring that each step works smoothly before moving to the next, you can follow this systematic approach:
-
 ### **Phase 1: Infrastructure Setup**
 
 1. **Step 1: Setup Version Control and Project Structure**
@@ -83,34 +81,6 @@ To create this project step by step while ensuring that each step works smoothly
    - Configure the worker nodes, autoscaling, and IAM roles.
    - **Confirm:** After applying Terraform, validate the EKS cluster by checking the AWS Console or using the `kubectl` command to interact with the cluster (e.g., `kubectl get nodes`).
 
-
-
-### Order of Creation
-Here's the recommended order to create the necessary components for the EKS cluster, based on the dependencies:
-
-### IAM Roles and Policies:
-
-Start by creating the IAM roles and policies required for the EKS cluster and worker nodes. This is a prerequisite for both the control plane and worker nodes.
-
-### EKS Cluster Control Plane:
-
-Once the IAM roles are in place, create the EKS cluster control plane. Specify the VPC and subnets created earlier to deploy the control plane correctly.
-
-### Worker Nodes:
-
-After the control plane is up and running, configure the worker nodes with the appropriate instance types, number of nodes, and autoscaling policies.
-
-Ensure the worker nodes are deployed into the private subnets and associated with the correct security groups.
-
-### Autoscaling:
-
-Once the worker nodes are created, configure autoscaling so that the number of worker nodes adjusts dynamically based on workload demand.
-
-### Cluster Validation:
-
-After applying all changes, use the AWS Console to verify that the EKS cluster is up and running.
-
-Validate by running a basic Kubernetes command, such as kubectl get nodes, to ensure that the worker nodes are registered with the control plane and everything is functioning as expected.
 
 ### **Phase 2: Jenkins Setup**
 
@@ -174,8 +144,6 @@ Validate by running a basic Kubernetes command, such as kubectl get nodes, to en
     - Repeat the process in the `prod` environment using the `environments/prod` Terragrunt configurations.
     - **Confirm:** Ensure everything is working in the production environment with all configurations.
 
-By moving step by step, validating each phase ensures minimal errors and quick troubleshooting, while keeping each stage of the infrastructure and pipeline fully functional before proceeding to the next step.
-
 ---
 
 ### **Priority Actions**:
@@ -186,7 +154,5 @@ By moving step by step, validating each phase ensures minimal errors and quick t
 5. **CI/CD Pipeline**: Automate the build and deployment of your application with Jenkins and Helm.
 6. **Monitoring and Alerts**: Implement real-time monitoring and alerting with Prometheus, Grafana, and CloudWatch.
 7. **Backup and Recovery**: Ensure Jenkins and application data are backed up and can be recovered from failures.
-
-This step-by-step process ensures a fully automated, DRY, and secure solution for deploying and managing your application.
 
 
